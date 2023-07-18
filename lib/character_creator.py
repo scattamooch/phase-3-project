@@ -37,7 +37,10 @@ while user_input.lower() != "x":
     if user_input.lower() == "n":
         # Name
         print(" ")
-        character_name = input("Enter the name of your new adventurer: ")
+        character_name = input("Enter the name of your new adventurer: ") 
+        while len(character_name) > 15:
+            print('Error: Name too long!')
+            character_name = input("Enter the name of your new adventurer: ")
 
         # Race selection
         print(" ")
