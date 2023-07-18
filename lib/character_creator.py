@@ -71,8 +71,8 @@ while user_input.lower() != "x":
         characters = session.query(Character).options(joinedload(Character.char_class), joinedload(Character.race)).all()
 
         #view saved characters
-        print("ID | Name          | Level | Class          | Race")
-        print("----------------------------------------------------")
+        print("ID | Name           | Level | Class          | Race")
+        print("-------------------------------------------------------------------")
         for character in characters:
             print(f"{character.id:2} | {character.name:<14} | {character.level:^5} | {character.char_class.name:<14} | {character.race.name}")
    
