@@ -17,8 +17,8 @@ class Character(Base):
     char_class_id = Column(ForeignKey("char_classes.id"))
     race_id = Column(ForeignKey("races.id"))
 
-    # char_class = relationship("CharClass", back_populates="characters")
-    # race = relationship("Race", back_populates = "characters")
+    char_class = relationship("CharClass", backref="characters")
+    race = relationship("Race", backref = "characters")
 
 
 class CharClass(Base):

@@ -35,6 +35,9 @@ wizard = CharClass(name = "Wizard", armor = "none", weapons = "daggers, light cr
 session.bulk_save_objects([barbarian, bard, cleric, druid, fighter, monk, paladin, ranger, rogue, sorcerer, warlock, wizard])
 session.commit()
 
+# session.query(Character).delete()
+# session.commit()
+
 
 user_input = 'not x'
 
