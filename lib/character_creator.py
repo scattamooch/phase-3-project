@@ -37,29 +37,52 @@ user_input = input("Enter N to make a new character, S to view saved characters,
 while user_input.lower() != "x":
     if user_input.lower() == "n":
         # Name
-        print(" ")
-        character_name = input("Enter the name of your new adventurer: ") 
+        print("\n Enter the name of your new adventurer: ")
+        character_name = input("\n ") 
         while len(character_name) > 15:
-            print('Error: Name too long!')
-            character_name = input("Enter the name of your new adventurer: ")
+            print('\n Error: Name too long!')
+            character_name = input("\n Waiting for name: ")
+        while len(character_name) < 2:
+            print('\n Error: Name too short!')
+            character_name = input("\n Waiting for name: ")
+        print(f"\n Your character name is: {character_name} \n \n \n")
 
         # Race selection
-        print(" ")
-        print("Available races:")
+        print("\n~Enter the ID of your desired race. For more information add 100 to your desired race.")
+        print("~~Available races:")
         for race in session.query(Race).all():
             print(f"ID: {race.id}, Name: {race.name}")
         print(" ")
-        race_id = int(input("Enter the ID of your desired race: "))
-        selected_race = session.query(Race).filter_by(id=race_id).first()
+        race_id = int(input("Waiting on race selection... "))
+        while not 1 <= race_id <= 12 and not 100 <= race_id <= 112:
+            print("Error: Not a valid selection. Try again!")
+            race_id = int(input("Waiting on race selection... "))
+        while 100 <= race_id <= 112: 
+            info_race = session.query(Race).filter_by(id=race_id - 100).first()
+            print(f"\n    Race: {info_race.name} | Age: {info_race.age}, Size: {info_race.size}, Languages: {info_race.language} \n")
+            race_id = int(input("Waiting on race selection... "))
+        else:
+            selected_race = session.query(Race).filter_by(id=race_id).first()
+        print(f"\n You have selected {race.name} as your race! \n \n \n")
+
 
         # Class selection
-        print(" ")
-        print("Available classes:")
+        print("\n~Enter the ID of your desired class. For more information add 100 to your desired class.")
+        print("~~Available classes:")
         for char_class in session.query(CharClass).all():
             print(f"ID: {char_class.id}, Name: {char_class.name}")
         print(" ")
-        class_id = int(input("Enter the ID of your desired class: "))
-        selected_class = session.query(CharClass).filter_by(id=class_id).first()
+        char_class_id = int(input("Waiting on class selection... "))
+        while not 1 <= int(char_class_id) <= 12 and not 100 <= int(char_class_id) <= 112 and (type(char_class_id) is int):
+            print("Error: Not a valid selection. Try again!")
+            char_class_id = int(input("Waiting on class selection..."))
+        while 100 <= int(char_class_id) <= 112: 
+            info_char_class = session.query(CharClass).filter_by(id=char_class_id - 100).first()
+            print(f"\n    Class: {info_char_class.name} | Armor: {info_char_class.armor}, Weapons: {info_char_class.weapons}, Starting Gear: {info_char_class.starting_gear} \n")
+            char_class_id = int(input("Waiting on class selection..."))
+        else:
+            selected_char_class = session.query(CharClass).filter_by(id=char_class_id).first()
+        print(f"\n You have selected {char_class.name} as your class! \n \n \n")
 
         # Skill Rolls
         print(" ")
@@ -83,8 +106,7 @@ while user_input.lower() != "x":
         new_character = Character(name=character_name, level=1, char_skill=roll_skill, race_id=selected_race.id, char_class_id=selected_class.id)
         session.add(new_character)
         session.commit()
-        print(" ")
-        print(f"New character: {character_name}, the {selected_race.name} {selected_class.name}, created successfully!")
+        print(f"\n Your new character: {character_name}, the {selected_race.name} {selected_char_class.name}, has been created successfully! \n")
 
         #transition into stat rolls?
 
@@ -97,7 +119,7 @@ while user_input.lower() != "x":
         print("-------------------------------------------------------------------")
         for character in characters:
             print(f"{character.id:2} | {character.name:<14} | {character.level:^5} | {character.char_class.name:<14} | {character.race.name}")
-   
+
         
 
     else:
