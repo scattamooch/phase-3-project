@@ -1,4 +1,7 @@
-from models import session, Race, Character, CharClass  
+from models import session, Race, Character, CharClass
+
+#Call 'python table_setter.py' to reset the tables to their default settings
+#(5 starting characters and no user created Races or Classes)
 
 #Deletes Past Session Races/Classes
 session.query( Race ).delete()
@@ -34,7 +37,7 @@ session.bulk_save_objects([dragonborn, human, dwarf, elf, gnome, half_elf, halfl
 session.bulk_save_objects([barbarian, bard, cleric, druid, fighter, monk, paladin, ranger, rogue, sorcerer, warlock, wizard])
 
 #Delete Past Session Characters
-session.query(Character).delete()
+session.query(Character).filter(Character.id > 5).delete()
 
 session.commit()
 
