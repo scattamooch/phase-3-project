@@ -14,6 +14,7 @@ class Character(Base):
     id = Column(Integer(), primary_key = True)
     name = Column(String())
     level = Column(Integer())
+    char_skill = Column(String())
     char_class_id = Column(ForeignKey("char_classes.id"))
     race_id = Column(ForeignKey("races.id"))
 
@@ -42,5 +43,6 @@ class Race(Base):
     age = Column(Integer())
     size = Column(String())
     language = Column(String())
+    skill = Column(String())
 
     # race = relationship("Race", cascade = "all, delete-orphan")
