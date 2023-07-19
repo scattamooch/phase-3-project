@@ -1,15 +1,16 @@
 #import shit
 from models import *
 from sqlalchemy.orm import joinedload
+import pdb
 
 #define shit
 def print_ascii_welcome():
     welcome_logo = """
                               __        __   _                            
-                              \ \      / /__| | ___ ___  _ __ ___   ___  
-                               \ \ /\ / / _ \ |/ __/ _ \| '_ ` _ \ / _ \ <::::::::::::::::::::}]xxxx()0
- o()xxxx[{::::::::::::::::::::> \ V  V /  __/ | (_| (_) | | | | | |  __/ 
-                                 \_/\_/ \___|_|\___\___/|_| |_| |_|\___| 
+                              \ \      / /__| | ___ ___  _ __ ___   ___                       ()
+        ()                     \ \ /\ / / _ \ |/ __/ _ \| '_ ` _ \ / _ \ <::::::::::::::::::::}]xxxx()0
+ o()xxxx[{::::::::::::::::::::> \ V  V /  __/ | (_| (_) | | | | | |  __/                      
+        ()                       \_/\_/ \___|_|\___\___/|_| |_| |_|\___| 
 """
 
     print(welcome_logo)
@@ -60,8 +61,26 @@ while user_input.lower() != "x":
         class_id = int(input("Enter the ID of your desired class: "))
         selected_class = session.query(CharClass).filter_by(id=class_id).first()
 
+        # Skill Rolls
+        print(" ")
+        skill = tuple(selected_race.skill)
+        diceroll = (15,14,13,12,10,8)
+        print(f"Your Current Skills:\n(S) Strength: {skill[1]}, (D) Dexterity: {skill[2]}, (C) Constitution: {skill[3]}, (W) Wisdom: {skill[4]}, (I) Intelligence: {skill[5]}, (R) Charisma: {skill[6]}")
+        print(" ")
+        print(f"Your Dice Roll Results:\n1: {diceroll[0]}, 2: {diceroll[1]}, 3: {diceroll[2]}, 4: {diceroll[3]}, 5: {diceroll[4]}, 6: {diceroll[5]}")
+        print(" ")
+        set_skill = input("(Example: 'S1' to assign 1st Dice Roll value to Strength)\nAssign your dice roll results to your skills: ")
+        roll_skill = [0, 0, 0, 0, 0, 0]
+        skill_cat =['S', 'D', 'C', 'W', 'I', 'R']
+        if set_skill == f"{skill_cat}{1}":
+            roll_skill[0] =  diceroll[0] + int(skill[1])
+
+        
+
+        pdb.set_trace()
+
         # Character creation
-        new_character = Character(name=character_name, level=1, race_id=selected_race.id, char_class_id=selected_class.id)
+        new_character = Character(name=character_name, level=1, char_skill=roll_skill, race_id=selected_race.id, char_class_id=selected_class.id)
         session.add(new_character)
         session.commit()
         print(" ")
