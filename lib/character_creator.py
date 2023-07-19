@@ -103,7 +103,7 @@ while user_input.lower() != "x":
         pdb.set_trace()
 
         # Character creation
-        new_character = Character(name=character_name, level=1, char_skill=roll_skill, race_id=selected_race.id, char_class_id=selected_class.id)
+        new_character = Character(name=character_name, level=1, char_skill=roll_skill, race_id=selected_race.id, char_class_id=selected_char_class.id)
         session.add(new_character)
         session.commit()
         print(f"\n Your new character: {character_name}, the {selected_race.name} {selected_char_class.name}, has been created successfully! \n")
