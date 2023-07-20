@@ -47,11 +47,15 @@ def start_battle():
                 print(f"{table_char.id:2} | {table_char.name:<14} | {table_char.level:^5} | {table_char.char_class.name:<14} | {table_char.race.name}")
                 #print(f"Formatted string with stats")
                 
-            player_id = int(input("Enter an ID to select your character: "))
-            
-            while player_id > row_count:
-                print("Error! No character with that ID.")
-                player_id = int(input("Enter an ID to select your character: "))
+            while True:
+                try:
+                    player_id = int(input("Enter an ID to select your character: "))
+                    if player_id > row_count:
+                        print("Error! No character with that ID.")
+                    else:
+                        break  # Exit the loop if the input is valid and within the range
+                except ValueError:
+                    print("Error! Entry must be a valid integer.")
 
         #character actually gets assigned to player
             selected_character = None
