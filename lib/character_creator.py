@@ -63,7 +63,7 @@ while user_input.lower() != "x":
             race_id = int(input("Waiting on race selection... "))
         else:
             selected_race = session.query(Race).filter_by(id=race_id).first()
-        print(f"\n You have selected {race.name} as your race! \n \n \n")
+        print(f"\n You have selected {selected_race.name} as your race! \n \n \n")
 
 
         # Class selection
@@ -82,31 +82,53 @@ while user_input.lower() != "x":
             char_class_id = int(input("Waiting on class selection..."))
         else:
             selected_char_class = session.query(CharClass).filter_by(id=char_class_id).first()
-        print(f"\n You have selected {char_class.name} as your class! \n \n \n")
+        print(f"\n You have selected {selected_char_class.name} as your class! \n \n \n")
 
         # Skill Rolls
         print(" ")
         skill = tuple(selected_race.skill)
-        diceroll = (15,14,13,12,10,8)
+        diceroll = [15,14,13,12,10,8]
         print(f"Your Current Skills:\n(S) Strength: {skill[1]}, (D) Dexterity: {skill[2]}, (C) Constitution: {skill[3]}, (W) Wisdom: {skill[4]}, (I) Intelligence: {skill[5]}, (R) Charisma: {skill[6]}")
         print(" ")
         print(f"Your Dice Roll Results:\n1: {diceroll[0]}, 2: {diceroll[1]}, 3: {diceroll[2]}, 4: {diceroll[3]}, 5: {diceroll[4]}, 6: {diceroll[5]}")
         print(" ")
         set_skill = input("(Example: 'S1' to assign 1st Dice Roll value to Strength)\nAssign your dice roll results to your skills: ")
-        roll_skill = [0, 0, 0, 0, 0, 0]
+        chosen_skill = [int(skill[1]), int(skill[2]), int(skill[3]), int(skill[4]), int(skill[5]), int(skill[6])]
         skill_cat =['S', 'D', 'C', 'W', 'I', 'R']
-        if set_skill == f"{skill_cat}{1}":
-            roll_skill[0] =  diceroll[0] + int(skill[1])
 
-        
+        # Set skills
+        iteration_count = 0
+        while iteration_count < 6:
+            if len(set_skill) == 2:
+                skill_index = set_skill[0].upper()
+                roll_index = int(set_skill[1]) - 1
+
+                if skill_index in skill_cat and 0 <= roll_index < len(chosen_skill):
+                    chosen_skill[skill_cat.index(skill_index)] = chosen_skill[skill_cat.index(skill_index)] + (diceroll[roll_index])
+                    diceroll.pop(roll_index)
+                    print(" ")
+                    print(f"Your Current Skills:\n(S) Strength: {chosen_skill[0]}, (D) Dexterity: {chosen_skill[1]}, (C) Constitution: {chosen_skill[2]}, (W) Wisdom: {chosen_skill[3]}, (I) Intelligence: {chosen_skill[4]}, (R) Charisma: {chosen_skill[5]}")
+                    print(" ")
+                    print(f"Your Dice Roll Results:\n" + ", ".join([f"{i + 1}: {diceroll[i]}" for i in range(len(diceroll))]))
+                    print(" ")
+                    set_skill = input("Assign your dice roll results to your skills: ")
+                    iteration_count += 1
+                else:
+                    print("Error: Choose only between S,D,C,W,I,R and 1,2,3,4,5,6 for inputs, respectively")
+            else:
+                print("Error: Please enter a letter for your Skill and a number for the Dice Roll")
+        print(f"Your Character's Skills:\nStrength: {chosen_skill[0]}, Dexterity: {chosen_skill[1]}, Constitution: {chosen_skill[2]}, Wisdom: {chosen_skill[3]}, Intelligence: {chosen_skill[4]}, Charisma: {chosen_skill[5]}")
+
+        selected_char_skill = f'sk{str(chosen_skill[0]).zfill(2)}{str(chosen_skill[1]).zfill(2)}{str(chosen_skill[2]).zfill(2)}{str(chosen_skill[3]).zfill(2)}{str(chosen_skill[4]).zfill(2)}{str(chosen_skill[5]).zfill(2)}'
 
         pdb.set_trace()
 
+
         # Character creation
-        new_character = Character(name=character_name, level=1, char_skill=roll_skill, race_id=selected_race.id, char_class_id=selected_char_class.id)
+        new_character = Character(name=character_name, level=1, char_skill=selected_char_skill, race_id=selected_race.id, char_class_id=selected_char_class.id)
         session.add(new_character)
         session.commit()
-        print(f"\n Your new character: {character_name}, the {selected_race.name} {selected_char_class.name}, has been created successfully! \n")
+        print(f"\n Your new character: {character_name}, the {selected_race.name} {selected_char_class.name}, has been created successfully!\n")
 
         #transition into stat rolls?
 
