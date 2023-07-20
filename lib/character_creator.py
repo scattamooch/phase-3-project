@@ -144,6 +144,7 @@ while user_input.lower() != "x":
                     iteration_count += 1
                 else:
                     print("Error: Choose only between S,D,C,W,I,R and 1,2,3,4,5,6 for inputs, respectively")
+            else:
                 print("Error: Please enter a letter for your Skill and a number for the Dice Roll")
         print(f"Your Character's Skills:\nStrength: {chosen_skill[0]}, Dexterity: {chosen_skill[1]}, Constitution: {chosen_skill[2]}, Wisdom: {chosen_skill[3]}, Intelligence: {chosen_skill[4]}, Charisma: {chosen_skill[5]}")
 
