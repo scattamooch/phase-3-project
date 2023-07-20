@@ -132,7 +132,6 @@ while user_input.lower() != "x":
             if len(set_skill) == 2:
                 skill_index = set_skill[0].upper()
                 roll_index = int(set_skill[1]) - 1
-
                 if skill_index in skill_cat and 0 <= roll_index < len(chosen_skill):
                     chosen_skill[skill_cat.index(skill_index)] = chosen_skill[skill_cat.index(skill_index)] + (diceroll[roll_index])
                     diceroll.pop(roll_index)
@@ -145,7 +144,6 @@ while user_input.lower() != "x":
                     iteration_count += 1
                 else:
                     print("Error: Choose only between S,D,C,W,I,R and 1,2,3,4,5,6 for inputs, respectively")
-            else:
                 print("Error: Please enter a letter for your Skill and a number for the Dice Roll")
         print(f"Your Character's Skills:\nStrength: {chosen_skill[0]}, Dexterity: {chosen_skill[1]}, Constitution: {chosen_skill[2]}, Wisdom: {chosen_skill[3]}, Intelligence: {chosen_skill[4]}, Charisma: {chosen_skill[5]}")
 
