@@ -38,14 +38,17 @@ while user_input.lower() != "x":
     if user_input.lower() == "n":
         # Name
         print("\n Enter the name of your new adventurer: ")
-        character_name = input("\n ") 
-        while len(character_name) > 15:
-            print('\n Error: Name too long!')
-            character_name = input("\n Waiting for name: ")
-        while len(character_name) < 2:
-            print('\n Error: Name too short!')
-            character_name = input("\n Waiting for name: ")
-        print(f"\n Your character name is: {character_name} \n \n \n")
+        while True:
+            try:
+                character_name = input("\n Waiting for name: ")
+                if len(character_name) < 2:
+                    print('\n Error: Name too short!')
+                elif len(character_name) > 15:
+                    print('\n Error: Name too long!')
+                else:
+                    break
+            except ValueError:
+                print("\n Error: Must be a string.")
 
         # Race selection
         print("\n~Enter the ID of your desired race. For more information add 100 to your desired race.")
@@ -53,18 +56,31 @@ while user_input.lower() != "x":
         for race in session.query(Race).all():
             print(f"ID: {race.id}, Name: {race.name}")
         print(" ")
-        race_id = int(input("Waiting on race selection... "))
-        while not 1 <= race_id <= 12 and not 100 <= race_id <= 112:
-            print("Error: Not a valid selection. Try again!")
-            race_id = int(input("Waiting on race selection... "))
-        while 100 <= race_id <= 112: 
-            info_race = session.query(Race).filter_by(id=race_id - 100).first()
-            print(f"\n    Race: {info_race.name} | Age: {info_race.age}, Size: {info_race.size}, Languages: {info_race.language} \n")
-            race_id = int(input("Waiting on race selection... "))
-        else:
-            selected_race = session.query(Race).filter_by(id=race_id).first()
-        print(f"\n You have selected {race.name} as your race! \n \n \n")
-
+        while True:
+            try:
+                race_id = int(input("Waiting on race selection... "))
+                if not 1 <= race_id <= 12 and not 101 <= race_id <= 109:
+                    print("Error: Not a valid selection. Try again!")
+                elif 101 <= race_id <= 109:
+                    info_race = session.query(Race).filter_by(id=race_id - 100).first()
+                    print(f"\n    Race: {info_race.name} | Age: {info_race.age}, Size: {info_race.size}, Languages: {info_race.language} \n")
+                    while 101 <= race_id <= 109:
+                        print("Interesting race possibility...")
+                        race_id = int(input("Waiting on race details selection... "))
+                        while 101 <= race_id <= 109:
+                            info_race = session.query(Race).filter_by(id=race_id - 100).first()
+                            print(f"\n    Race: {info_race.name} | Age: {info_race.age}, Size: {info_race.size}, Languages: {info_race.language} \n")
+                            break
+                        else:
+                            print("Returning to main race menu...")
+                    else:
+                        input("Please press X to continue... ")
+                else:
+                    selected_race = session.query(Race).filter_by(id=race_id).first()
+                    print(f"\n You have selected {selected_race.name} as your race! \n \n \n")
+                    break
+            except ValueError:
+                print("\n ERROR: Must be a number. \n")
 
         # Class selection
         print("\n~Enter the ID of your desired class. For more information add 100 to your desired class.")
@@ -72,17 +88,31 @@ while user_input.lower() != "x":
         for char_class in session.query(CharClass).all():
             print(f"ID: {char_class.id}, Name: {char_class.name}")
         print(" ")
-        char_class_id = int(input("Waiting on class selection... "))
-        while not 1 <= int(char_class_id) <= 12 and not 100 <= int(char_class_id) <= 112 and (type(char_class_id) is int):
-            print("Error: Not a valid selection. Try again!")
-            char_class_id = int(input("Waiting on class selection..."))
-        while 100 <= int(char_class_id) <= 112: 
-            info_char_class = session.query(CharClass).filter_by(id=char_class_id - 100).first()
-            print(f"\n    Class: {info_char_class.name} | Armor: {info_char_class.armor}, Weapons: {info_char_class.weapons}, Starting Gear: {info_char_class.starting_gear} \n")
-            char_class_id = int(input("Waiting on class selection..."))
-        else:
-            selected_char_class = session.query(CharClass).filter_by(id=char_class_id).first()
-        print(f"\n You have selected {char_class.name} as your class! \n \n \n")
+        while True:
+            try:
+                char_class_id = int(input("Waiting on class selection... "))
+                if not 1 <= char_class_id <= 12 and not 101 <= char_class_id <= 112:
+                    print("Error: Not a valid selection. Try again!")
+                elif 101 <= char_class_id <= 112: 
+                    info_char_class = session.query(CharClass).filter_by(id=char_class_id - 100).first()
+                    print(f"\n    Class: {info_char_class.name} | Armor: {info_char_class.armor}, Weapons: {info_char_class.weapons}, Starting Gear: {info_char_class.starting_gear} \n")
+                    while 101 <= char_class_id <= 112:
+                        print("Interesting class possibility...")
+                        char_class_id = int(input("Waiting on class details selection..."))
+                        while 101 <= char_class_id <= 112:
+                            info_char_class = session.query(CharClass).filter_by(id=char_class_id - 100).first()
+                            print(f"\n    Class: {info_char_class.name} | Armor: {info_char_class.armor}, Weapons: {info_char_class.weapons}, Starting Gear: {info_char_class.starting_gear} \n")
+                            break
+                        else: 
+                            print("Returning to main class menu...")
+                    else:
+                        input("Please press X to continue...")
+                else:
+                    selected_char_class = session.query(CharClass).filter_by(id=char_class_id).first()
+                    print(f"\n You have selected {selected_char_class.name} as your class! \n \n \n")
+                    break
+            except ValueError:
+                print("\n ERROR: Must be a number. \n")
 
         # Skill Rolls
         print(" ")
