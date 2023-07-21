@@ -1,7 +1,8 @@
 import random
 import time
 from sqlalchemy.orm import joinedload
-from models import session, Character
+from models import session, Character, Race
+import pdb
 
 
 def print_arena_logo():
@@ -39,19 +40,25 @@ def get_valid_player_choice(row_count):
         except ValueError:
             print("Error! Entry must be a valid integer.")
 
-
-def print_character_info(char):
-    print(f"{char.id:2} | {char.name:<14} | {char.level:^5} | {char.char_class.name:<14} | {char.race.name}")
-
-
+#processes and prints char data for character selection
 def choose_character():
     characters = session.query(Character).options(joinedload(Character.char_class), joinedload(Character.race)).all()
     row_count = session.query(Character).count()
 
     print("ID | Name           | Level | Class          | Race")
-    print("-------------------------------------------------------------------")
+    print("-------------------------------------------------------------------------------")
     for table_char in characters:
-        print_character_info(table_char)
+        removed_sk = table_char.char_skill[slice(2, 14)]
+        # statline = statline[slice(2, 13)]
+        separated_stats = [removed_sk[i:i + 2] for i in range(0, len(removed_sk), 2)]
+        
+        # Extract stats values from substrings
+        strength, dexterity, constitution, wisdom, intelligence, charisma = [int(stat) for stat in separated_stats]
+        print(f"{table_char.id:2} | {table_char.name:<14} | {table_char.level:^5} | {table_char.race.name:<14} | {table_char.char_class.name:<14}")
+        print(" ")
+        print(f"STR: {strength:<8} DEX: {dexterity:<8} CON: {constitution:<8} WIS: {wisdom:<8} INT: {intelligence:<8} CHA: {charisma:<8}")
+        print("-------------------------------------------------------------------------------")
+        print(" ")
 
     player_id = get_valid_player_choice(row_count)
     selected_character = next((char for char in characters if char.id == player_id), None)
@@ -78,10 +85,10 @@ def get_move_input(player_name):
 
 
 def handle_player_move(player_name, cpu_name, player_hp, cpu_hp):
-    phys1 = random.randint(90, 100)  # plus strength
-    spell1 = random.randint(0, 16)  # plus intellect
-    crit_phys1 = random.randint(11, 25)  # plus str
-    crit_spell1 = random.randint(11, 25)  # plus int
+    phys1 = random.randint(1, 16) 
+    spell1 = random.randint(1, 16) 
+    crit_phys1 = random.randint(11, 25)  
+    crit_spell1 = random.randint(11, 25) 
     crit1 = random.randint(0, 15)
     p1move = get_move_input(player_name)
 
@@ -189,6 +196,7 @@ def start_battle():
                     cpu_hp = 100
 
                     print(" ")
+                    print(f"Your opponent has been determined: {cpu_name}, the {opponent_character.race.name} {opponent_character.char_class.name}.")
                     print("Adventurers start with 100 hit points, brace yourself!")
 
                     while player_hp > 0 and cpu_hp > 0:

@@ -1,4 +1,5 @@
 #import shit
+import subprocess
 from models import *
 from sqlalchemy.orm import joinedload
 import pdb
@@ -9,7 +10,7 @@ def print_ascii_welcome():
                               __        __   _                            
                               \ \      / /__| | ___ ___  _ __ ___   ___                       ()
         ()                     \ \ /\ / / _ \ |/ __/ _ \| '_ ` _ \ / _ \ <::::::::::::::::::::}]xxxx()0
- o()xxxx[{::::::::::::::::::::> \ V  V /  __/ | (_| (_) | | | | | |  __/                      
+ o()xxxx[{::::::::::::::::::::> \ V  V /  __/ | (_| (_) | | | | | |  __/                      ()
         ()                       \_/\_/ \___|_|\___\___/|_| |_| |_|\___| 
 """
 
@@ -32,7 +33,7 @@ Get ready to delve into a world of magic, monsters, and thrilling quests. Gather
 print_ascii_welcome()
 print_intro()
 
-user_input = input("Enter N to make a new character, S to view saved characters, or X at any time to exit: ")
+user_input = input("Enter N to make a new character, S to view saved characters, A to enter battle arena, or X at any time to exit: ")
 
 while user_input.lower() != "x":
     if user_input.lower() == "n":
@@ -114,10 +115,15 @@ while user_input.lower() != "x":
             except ValueError:
                 print("\n ERROR: Must be a number. \n")
 
+        # call dice roll
+        print(" ")
+        start_dice = input("Enter R to roll your dice: ").upper()
+
+        from diceroll import diceroll
+
         # Skill Rolls
         print(" ")
         skill = tuple(selected_race.skill)
-        diceroll = [15,14,13,12,10,8]
         print(f"Your Current Skills:\n(S) Strength: {skill[1]}, (D) Dexterity: {skill[2]}, (C) Constitution: {skill[3]}, (W) Wisdom: {skill[4]}, (I) Intelligence: {skill[5]}, (R) Charisma: {skill[6]}")
         print(" ")
         print(f"Your Dice Roll Results:\n1: {diceroll[0]}, 2: {diceroll[1]}, 3: {diceroll[2]}, 4: {diceroll[3]}, 5: {diceroll[4]}, 6: {diceroll[5]}")
@@ -205,8 +211,9 @@ while user_input.lower() != "x":
         for character in characters:
             print(f"{character.id:2} | {character.name:<14} | {character.level:^5} | {character.char_class.name:<14} | {character.race.name}")
 
+    elif user_input.lower() == "a":
+        subprocess.run(["python", "dnd_combat2.py"])
         
-
     else:
         print(f"{user_input} is not a valid entry.")
 
