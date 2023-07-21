@@ -119,14 +119,16 @@ while user_input.lower() != "x":
         print(" ")
         start_dice = input("Enter R to roll your dice: ").upper()
 
-        from diceroll import diceroll
+        from diceroll import generate_dice_roll
+        desired_sum = 72
+        dice_result = generate_dice_roll(desired_sum, reset=True)
 
         # Skill Rolls
         print(" ")
         skill = tuple(selected_race.skill)
         print(f"Your Current Skills:\n(S) Strength: {skill[1]}, (D) Dexterity: {skill[2]}, (C) Constitution: {skill[3]}, (W) Wisdom: {skill[4]}, (I) Intelligence: {skill[5]}, (R) Charisma: {skill[6]}")
         print(" ")
-        print(f"Your Dice Roll Results:\n1: {diceroll[0]}, 2: {diceroll[1]}, 3: {diceroll[2]}, 4: {diceroll[3]}, 5: {diceroll[4]}, 6: {diceroll[5]}")
+        print(f"Your Dice Roll Results:\n1: {dice_result[0]}, 2: {dice_result[1]}, 3: {dice_result[2]}, 4: {dice_result[3]}, 5: {dice_result[4]}, 6: {dice_result[5]}")
         print(" ")
         set_skill = input("(Example: 'S1' to assign 1st Dice Roll value to Strength)\nAssign your dice roll results to your skills: ")
         chosen_skill = [int(skill[1]), int(skill[2]), int(skill[3]), int(skill[4]), int(skill[5]), int(skill[6])]
@@ -140,12 +142,12 @@ while user_input.lower() != "x":
                 roll_index = int(set_skill[1]) - 1
 
                 if skill_index in skill_cat and 0 <= roll_index < len(chosen_skill):
-                    chosen_skill[skill_cat.index(skill_index)] = chosen_skill[skill_cat.index(skill_index)] + (diceroll[roll_index])
-                    diceroll.pop(roll_index)
+                    chosen_skill[skill_cat.index(skill_index)] = chosen_skill[skill_cat.index(skill_index)] + (dice_result[roll_index])
+                    dice_result.pop(roll_index)
                     print(" ")
                     print(f"Your Current Skills:\n(S) Strength: {chosen_skill[0]}, (D) Dexterity: {chosen_skill[1]}, (C) Constitution: {chosen_skill[2]}, (W) Wisdom: {chosen_skill[3]}, (I) Intelligence: {chosen_skill[4]}, (R) Charisma: {chosen_skill[5]}")
                     print(" ")
-                    print(f"Your Dice Roll Results:\n" + ", ".join([f"{i + 1}: {diceroll[i]}" for i in range(len(diceroll))]))
+                    print(f"Your Dice Roll Results:\n" + ", ".join([f"{i + 1}: {dice_result[i]}" for i in range(len(dice_result))]))
                     print(" ")
                     set_skill = input("Assign your dice roll results to your skills: ")
                     iteration_count += 1
