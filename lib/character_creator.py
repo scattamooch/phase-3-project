@@ -132,33 +132,11 @@ while user_input.lower() != "x":
         while True:
                 try:
                     while len(set_skill) == 2:
-                        while iteration_count < 4:
-                                if len(set_skill) == 2:
-                                    skill_index = set_skill[0].upper()
-                                    roll_index = int(set_skill[1]) - 1
-                                    if skill_index in skill_cat and 0 <= roll_index < len(chosen_skill):
-                                        chosen_skill[skill_cat.index(skill_index)] = chosen_skill[skill_cat.index(skill_index)] + (diceroll[roll_index])
-                                        diceroll.pop(roll_index)
-                                        print(" ")
-                                        print(f"Your Current Skills:\n(S) Strength: {chosen_skill[0]}, (D) Dexterity: {chosen_skill[1]}, (C) Constitution: {chosen_skill[2]}, (W) Wisdom: {chosen_skill[3]}, (I) Intelligence: {chosen_skill[4]}, (R) Charisma: {chosen_skill[5]}")
-                                        print(" ")
-                                        print(f"Your Dice Roll Results:\n" + ", ".join([f"{i + 1}: {diceroll[i]}" for i in range(len(diceroll))]))
-                                        print(" ")
-                                        set_skill = input("Assign your dice roll results to your skills: ")
-                                        iteration_count += 1
-                                if len(set_skill) == 1:
-                                    print("ERROR: Please enter a letter for your Skill and a number for the Dice Roll.")
-                                    set_skill = input("Assign your dice roll results to your skills: ")
-                                elif len(set_skill) == 0:
-                                    print("ERROR: Please enter a letter for your Skill and a number for the Dice Roll.")
-                                    set_skill = input("Assign your dice roll results to your skills: ")
-                                elif len(set_skill) == 2 and not any(num for num in skill_num) and not any(cat for cat in skill_cat):
-                                        print("HELLO")
-                                        set_skill = input("Assign your dice roll results to your skills: ")
-                        while iteration_count == 4:
+                        while iteration_count < 5:
+                            if len(set_skill) == 2:
                                 skill_index = set_skill[0].upper()
                                 roll_index = int(set_skill[1]) - 1
-                                if skill_index in skill_cat and 0 == roll_index < len(chosen_skill):
+                                if skill_index in skill_cat and 0 <= roll_index < len(chosen_skill):
                                     chosen_skill[skill_cat.index(skill_index)] = chosen_skill[skill_cat.index(skill_index)] + (diceroll[roll_index])
                                     diceroll.pop(roll_index)
                                     print(" ")
@@ -168,17 +146,32 @@ while user_input.lower() != "x":
                                     print(" ")
                                     set_skill = input("Assign your dice roll results to your skills: ")
                                     iteration_count += 1
+                            elif len(set_skill) == 1:
+                                print("ERROR: Please enter a letter for your Skill and a number for the Dice Roll.")
+                                set_skill = input("Assign your dice roll results to your skills: ")
+                            elif len(set_skill) == 0:
+                                print("ERROR: Please enter a letter for your Skill and a number for the Dice Roll.")
+                                set_skill = input("Assign your dice roll results to your skills: ")
+                        while iteration_count == 5:
+                            if len(set_skill) == 2:
+                                skill_index = set_skill[0].upper()
+                                roll_index = int(set_skill[1]) - 1
+                                if skill_index in skill_cat and 0 <= roll_index < len(chosen_skill):
+                                    chosen_skill[skill_cat.index(skill_index)] = chosen_skill[skill_cat.index(skill_index)] + (diceroll[roll_index])
+                                    diceroll.pop(roll_index)
+                                    print(" ")
+                                    print(f"Your Final Skills:\n        (S) Strength: {chosen_skill[0]}, (D) Dexterity: {chosen_skill[1]}, (C) Constitution: {chosen_skill[2]}, (W) Wisdom: {chosen_skill[3]}, (I) Intelligence: {chosen_skill[4]}, (R) Charisma: {chosen_skill[5]}")
+                                    print(" ")
+                                    iteration_count += 1
+                                    break
+                            elif len(set_skill) == 1:
+                                print("ERROR: Please enter a letter for your Skill and a number for the Dice Roll.")
+                                set_skill = input("Assign your dice roll results to your skills: ")
+                            elif len(set_skill) == 0:
+                                print("ERROR: Please enter a letter for your Skill and a number for the Dice Roll.")
+                                set_skill = input("Assign your dice roll results to your skills: ")
                         else:
-                            print(f"\n  Your Final Skills:\n    (S) Strength: {chosen_skill[0]}, (D) Dexterity: {chosen_skill[1]}, (C) Constitution: {chosen_skill[2]}, (W) Wisdom: {chosen_skill[3]}, (I) Intelligence: {chosen_skill[4]}, (R) Charisma: {chosen_skill[5]}")
                             break
-                    while len(set_skill) == 1:
-                        print("ERROR: Please enter a letter for your Skill and a number for the Dice Roll.")
-                        set_skill = input("Assign your dice roll results to your skills: ")
-                        break
-                    while len(set_skill) == 0:
-                        print("ERROR: Please enter a letter for your Skill and a number for the Dice Roll.")
-                        set_skill = input("Assign your dice roll results to your skills: ")
-                        break
                     else:
                         if iteration_count < 5:
                             print("Please press same selection again.")
