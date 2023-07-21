@@ -128,29 +128,46 @@ while user_input.lower() != "x":
 
         # Set skills
         iteration_count = 0
-        while iteration_count < 6:
-            if len(set_skill) == 2:
-                skill_index = set_skill[0].upper()
-                roll_index = int(set_skill[1]) - 1
-                if skill_index in skill_cat and 0 <= roll_index < len(chosen_skill):
-                    chosen_skill[skill_cat.index(skill_index)] = chosen_skill[skill_cat.index(skill_index)] + (diceroll[roll_index])
-                    diceroll.pop(roll_index)
-                    print(" ")
-                    print(f"Your Current Skills:\n(S) Strength: {chosen_skill[0]}, (D) Dexterity: {chosen_skill[1]}, (C) Constitution: {chosen_skill[2]}, (W) Wisdom: {chosen_skill[3]}, (I) Intelligence: {chosen_skill[4]}, (R) Charisma: {chosen_skill[5]}")
-                    print(" ")
-                    print(f"Your Dice Roll Results:\n" + ", ".join([f"{i + 1}: {diceroll[i]}" for i in range(len(diceroll))]))
-                    print(" ")
-                    set_skill = input("Assign your dice roll results to your skills: ")
-                    iteration_count += 1
-                else:
-                    print("Error: Choose only between S,D,C,W,I,R and 1,2,3,4,5,6 for inputs, respectively")
+        try:
+            while iteration_count < 4:
+                if len(set_skill) == 2:
+                    skill_index = set_skill[0].upper()
+                    roll_index = int(set_skill[1]) - 1
+                    if skill_index in skill_cat and 0 <= roll_index < len(chosen_skill):
+                        chosen_skill[skill_cat.index(skill_index)] = chosen_skill[skill_cat.index(skill_index)] + (diceroll[roll_index])
+                        diceroll.pop(roll_index)
+                        print(" ")
+                        print(f"Your Current Skills:\n(S) Strength: {chosen_skill[0]}, (D) Dexterity: {chosen_skill[1]}, (C) Constitution: {chosen_skill[2]}, (W) Wisdom: {chosen_skill[3]}, (I) Intelligence: {chosen_skill[4]}, (R) Charisma: {chosen_skill[5]}")
+                        print(" ")
+                        print(f"Your Dice Roll Results:\n" + ", ".join([f"{i + 1}: {diceroll[i]}" for i in range(len(diceroll))]))
+                        print(" ")
+                        set_skill = input("Assign your dice roll results to your skills: ")
+                        iteration_count += 1
+            while iteration_count == 4:
+                if len(set_skill) == 2:
+                    skill_index = set_skill[0].upper()
+                    roll_index = int(set_skill[1]) - 1
+                    if skill_index in skill_cat and 0 <= roll_index < len(chosen_skill):
+                        chosen_skill[skill_cat.index(skill_index)] = chosen_skill[skill_cat.index(skill_index)] + (diceroll[roll_index])
+                        diceroll.pop(roll_index)
+                        print(" ")
+                        print(f"Your Current Skills:\n(S) Strength: {chosen_skill[0]}, (D) Dexterity: {chosen_skill[1]}, (C) Constitution: {chosen_skill[2]}, (W) Wisdom: {chosen_skill[3]}, (I) Intelligence: {chosen_skill[4]}, (R) Charisma: {chosen_skill[5]}")
+                        print(" ")
+                        print(f"Your Dice Roll Results:\n" + ", ".join([f"{i + 1}: {diceroll[i]}" for i in range(len(diceroll))]))
+                        print(" ")
+                        set_skill = input("Assign your dice roll results to your skills: ")
+                        chosen_skill[skill_cat.index(skill_index)+1] = chosen_skill[skill_cat.index(skill_index)+1] + (diceroll[roll_index])
+                        iteration_count += 1
+            while iteration_count == 5:
+                print(f"\n  Your Final Skills:\n    (S) Strength: {chosen_skill[0]}, (D) Dexterity: {chosen_skill[1]}, (C) Constitution: {chosen_skill[2]}, (W) Wisdom: {chosen_skill[3]}, (I) Intelligence: {chosen_skill[4]}, (R) Charisma: {chosen_skill[5]}")
+                break
             else:
-                print("Error: Please enter a letter for your Skill and a number for the Dice Roll")
-        print(f"Your Character's Skills:\nStrength: {chosen_skill[0]}, Dexterity: {chosen_skill[1]}, Constitution: {chosen_skill[2]}, Wisdom: {chosen_skill[3]}, Intelligence: {chosen_skill[4]}, Charisma: {chosen_skill[5]}")
+                break
+        except ValueError:
+            print("This is a value error.")
 
         selected_char_skill = f'sk{str(chosen_skill[0]).zfill(2)}{str(chosen_skill[1]).zfill(2)}{str(chosen_skill[2]).zfill(2)}{str(chosen_skill[3]).zfill(2)}{str(chosen_skill[4]).zfill(2)}{str(chosen_skill[5]).zfill(2)}'
 
-        pdb.set_trace()
 
 
         # Character creation
