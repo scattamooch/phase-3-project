@@ -168,8 +168,12 @@ while user_input.lower() != "x":
                                     print(" ")
                                     print(f"Your Final Skills:\n        (S) Strength: {chosen_skill[0]}, (D) Dexterity: {chosen_skill[1]}, (C) Constitution: {chosen_skill[2]}, (W) Wisdom: {chosen_skill[3]}, (I) Intelligence: {chosen_skill[4]}, (R) Charisma: {chosen_skill[5]}")
                                     print(" ")
+                                    selected_char_skill = f'sk{str(chosen_skill[0]).zfill(2)}{str(chosen_skill[1]).zfill(2)}{str(chosen_skill[2]).zfill(2)}{str(chosen_skill[3]).zfill(2)}{str(chosen_skill[4]).zfill(2)}{str(chosen_skill[5]).zfill(2)}'
+                                    new_character = Character(name=character_name, level=1, char_skill=selected_char_skill, race_id=selected_race.id, char_class_id=selected_char_class.id)
+                                    session.add(new_character)
+                                    session.commit()
+                                    print(f"\n Your new character: {character_name}, the {selected_race.name} {selected_char_class.name}, has been created successfully!\n")
                                     iteration_count += 1
-                                    break
                             elif len(set_skill) == 1:
                                 print("ERROR: Please enter a letter for your Skill and a number for the Dice Roll.")
                                 set_skill = input("Assign your dice roll results to your skills: ")
@@ -178,26 +182,20 @@ while user_input.lower() != "x":
                                 set_skill = input("Assign your dice roll results to your skills: ")
                         else:
                             break
-                    else:
-                        if iteration_count < 5:
+                    while iteration_count < 5:
                             print("Please press same selection again.")
                             set_skill = input("Assign your dice roll results to your skills: ")
-                        else:
-                            break
+                    else:
+                        break
                 except ValueError:
                     print("This is a value error.")
                     break
 
 
-        selected_char_skill = f'sk{str(chosen_skill[0]).zfill(2)}{str(chosen_skill[1]).zfill(2)}{str(chosen_skill[2]).zfill(2)}{str(chosen_skill[3]).zfill(2)}{str(chosen_skill[4]).zfill(2)}{str(chosen_skill[5]).zfill(2)}'
 
 
 
         # Character creation
-        new_character = Character(name=character_name, level=1, char_skill=selected_char_skill, race_id=selected_race.id, char_class_id=selected_char_class.id)
-        session.add(new_character)
-        session.commit()
-        print(f"\n Your new character: {character_name}, the {selected_race.name} {selected_char_class.name}, has been created successfully!\n")
 
         #transition into stat rolls?
 
