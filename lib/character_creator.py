@@ -215,7 +215,7 @@ while user_input.lower() != "x":
     else:
         print(f"{user_input} is not a valid entry.")
 
-    user_input = input("Enter N to make a new character, S to view saved characters, or X at any time to exit: ")
+    user_input = input("Enter N to make a new character, S to view saved characters, A to enter battle arena, or X at any time to exit: ")
 
 print("Happy campaigning!")
 
